@@ -155,14 +155,16 @@ public class WarriorControllerIntegrationTest {
         int id = savedWarrior.getId();
         warriorDto.setId(id);
 
-        String guildJson = objectMapper.writeValueAsString(warriorDto);
+        String warriorJason = objectMapper.writeValueAsString(warriorDto);
 
         mockMvc.perform(
                         MockMvcRequestBuilders.put("/warriors/" + id)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(guildJson)
+                                .content(warriorJason)
                 )
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("Monoliso"))
+                .andExpect(jsonPath("$.age").value(23));
 
     }
 

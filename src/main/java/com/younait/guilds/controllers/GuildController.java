@@ -63,6 +63,17 @@ public class GuildController {
 
 
     }
+    @PatchMapping(path="/guilds/{id}")
+    public ResponseEntity<GuildDto> updateGuild(@PathVariable("id") int id, @RequestBody GuildDto guildDto) {
+        boolean existingGuild=guildService.isExist(id);
+        if(!existingGuild){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        GuildEntity guildEntity = guildMapper.mapFrom(guildDto);
+        guildEntity.setId(id);
+        GuildEntity updatedGuild=guildService.partialUpdate(id,guildEntity);
+        return new ResponseEntity<>(guildMapper.mapTo(updatedGuild),HttpStatus.OK);
+    }
 
 }
 

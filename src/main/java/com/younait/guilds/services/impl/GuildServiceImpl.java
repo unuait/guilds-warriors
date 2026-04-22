@@ -4,9 +4,7 @@ package com.younait.guilds.services.impl;
 import com.younait.guilds.domain.Entities.GuildEntity;
 import com.younait.guilds.repositories.GuildsRepository;
 import com.younait.guilds.services.GuildService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +35,22 @@ public boolean isExist(int id){
     return guildsRepository.existsById(id);
 
 }
+    @Override
+    public GuildEntity partialUpdate(int id, GuildEntity incoming) {
+
+        GuildEntity existing = guildsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Guild not found"));
+
+        if (incoming.getName() != null) {
+            existing.setName(incoming.getName());
+        }
+
+        if (incoming.getRegion() != null) {
+            existing.setRegion(incoming.getRegion());
+        }
+
+        return guildsRepository.save(existing);
+    }
 
     }
 

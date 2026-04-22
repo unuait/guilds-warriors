@@ -63,3 +63,6 @@ public class WarriorController {
     return new ResponseEntity<>(warriorMapper.mapTo(savedWarrior),HttpStatus.OK);
     }
 }
+
+
+
