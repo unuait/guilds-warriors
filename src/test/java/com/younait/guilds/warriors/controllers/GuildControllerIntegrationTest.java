@@ -178,12 +178,31 @@ public class GuildControllerIntegrationTest {
 
     @Transactional
     @Test
-    void TestThatFullUpdaUpdatesExsitingGuiolds() throws Exception {
+    void testThatFullUpdateUpdatesExistingGuild() throws Exception {
+
         GuildEntity guild = new GuildEntity();
         guild.setName("thetoto");
         guild.setRegion("bouksour");
-        GuildEntity savedGuild= guildService.createGuild(guild);
 
+        GuildEntity savedGuild = guildService.createGuild(guild);
+        int id = savedGuild.getId();
+
+
+        GuildDto updatedGuild = new GuildDto();
+        updatedGuild.setName("bohemian colt");
+        updatedGuild.setRegion("laayoune");
+        updatedGuild.setId(savedGuild.getId());
+
+        String json = objectMapper.writeValueAsString(updatedGuild);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/guilds/" + id)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(json)
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.name").value("bohemian colt"))
+                .andExpect(jsonPath("$.region").value("laayoune"));
     }
 
 
