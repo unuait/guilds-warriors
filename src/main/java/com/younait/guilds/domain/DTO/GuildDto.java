@@ -11,7 +11,7 @@ public class GuildDto {
 
         public GuildDto() {}
 
-        public int getId() {
+        public Integer getId() {
             return id;
         }
 
