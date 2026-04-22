@@ -1,6 +1,8 @@
 package com.younait.guilds.warriors.controllers;
 
 
+import com.younait.guilds.domain.DTO.GuildDto;
+import com.younait.guilds.domain.DTO.WarriorDto;
 import com.younait.guilds.domain.Entities.GuildEntity;
 import com.younait.guilds.domain.Entities.WarriorEntity;
 import com.younait.guilds.repositories.WarriorRepository;
@@ -120,7 +122,7 @@ public class WarriorControllerIntegrationTest {
 
     @Test
     @Transactional
-    void testThatGetGuildsReturnGuildWhenGuildExist() throws Exception{
+    void testThatGetwarriorReturnwarriorWhenwarriorExist() throws Exception{
             WarriorEntity warrior = new WarriorEntity();
             warrior.setAge(20);
             warrior.setName("monalisa");
@@ -136,6 +138,33 @@ public class WarriorControllerIntegrationTest {
                 .andExpect(jsonPath("$.age").value("20"));
     }
 
+    @Test
+    @Transactional
+    void testThatUpdatewarriorReturnHttpStatus200WhenFound() throws Exception {
+
+        WarriorEntity warrior = new WarriorEntity();
+        warrior.setName("monalisa");
+        warrior.setAge(15);
+
+        WarriorEntity savedWarrior = warriorService.CreateWarrior(warrior);
+
+        WarriorDto warriorDto = new WarriorDto();
+        warriorDto.setName("Monoliso");
+        warriorDto.setAge(23);
+
+        int id = savedWarrior.getId();
+        warriorDto.setId(id);
+
+        String guildJson = objectMapper.writeValueAsString(warriorDto);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/warriors/" + id)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(guildJson)
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+    }
 
 
 
