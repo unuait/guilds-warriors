@@ -205,5 +205,32 @@ public class GuildControllerIntegrationTest {
                 .andExpect(jsonPath("$.region").value("laayoune"));
     }
 
+    @Test
+    @Transactional
+    void testThatPartialUpdateGuildWorksCorrectly() throws Exception {
+
+        GuildEntity guild = new GuildEntity();
+        guild.setName("old name");
+        guild.setRegion("old region");
+
+        GuildEntity savedGuild = guildService.createGuild(guild);
+        int id = savedGuild.getId();
+
+        GuildDto patchDto = new GuildDto();
+        patchDto.setName("new name");
+
+        String json = objectMapper.writeValueAsString(patchDto);
+
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.patch("/guilds/" + id)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(json)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("new name"))
+                .andExpect(jsonPath("$.region").value("old region"));
+    }
+
 
 }
