@@ -4,6 +4,7 @@ import com.younait.guilds.domain.DTO.GuildDto;
 import com.younait.guilds.domain.Entities.GuildEntity;
 import com.younait.guilds.mappers.impl.GuildMapperImpl;
 import com.younait.guilds.services.GuildService;
+import org.springframework.data.web.ReactiveOffsetScrollPositionHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -73,6 +74,16 @@ public class GuildController {
         guildEntity.setId(id);
         GuildEntity updatedGuild=guildService.partialUpdate(id,guildEntity);
         return new ResponseEntity<>(guildMapper.mapTo(updatedGuild),HttpStatus.OK);
+    }
+
+    @DeleteMapping(path=("guilds/{id}"))
+    public ResponseEntity deleteGuild(@PathVariable("id") int id){
+    boolean existing=guildService.isExist(id);
+        if(!existing){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        guildService.deleteGuild(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

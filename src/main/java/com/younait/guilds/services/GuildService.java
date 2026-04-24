@@ -18,4 +18,6 @@ public interface GuildService {
 
 
     GuildEntity partialUpdate(int id, GuildEntity incoming);
+
+    void deleteGuild(int id);
 }

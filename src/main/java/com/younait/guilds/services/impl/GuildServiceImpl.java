@@ -51,6 +51,10 @@ public boolean isExist(int id){
 
         return guildsRepository.save(existing);
     }
+    @Override
+    public void deleteGuild(int id) {
+        guildsRepository.deleteById(id);
+    }
 
     }
 
