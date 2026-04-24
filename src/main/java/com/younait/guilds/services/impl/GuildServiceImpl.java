@@ -4,6 +4,8 @@ package com.younait.guilds.services.impl;
 import com.younait.guilds.domain.Entities.GuildEntity;
 import com.younait.guilds.repositories.GuildsRepository;
 import com.younait.guilds.services.GuildService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,11 @@ public class GuildServiceImpl implements GuildService {
     @Override
     public List<GuildEntity> findAll() {
         return guildsRepository.findAll();
+    }
+
+    @Override
+    public Page<GuildEntity> findAll(Pageable pageable) {
+        return guildsRepository.findAll(pageable);
     }
 
     @Override
@@ -55,6 +62,8 @@ public boolean isExist(int id){
     public void deleteGuild(int id) {
         guildsRepository.deleteById(id);
     }
+
+
 
     }
 

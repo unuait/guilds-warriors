@@ -1,7 +1,8 @@
 package com.younait.guilds.services;
 
 import com.younait.guilds.domain.Entities.GuildEntity;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,4 +21,6 @@ public interface GuildService {
     GuildEntity partialUpdate(int id, GuildEntity incoming);
 
     void deleteGuild(int id);
+
+    Page<GuildEntity> findAll(Pageable pageable);
 }

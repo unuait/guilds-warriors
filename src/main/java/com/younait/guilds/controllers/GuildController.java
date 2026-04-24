@@ -4,11 +4,13 @@ import com.younait.guilds.domain.DTO.GuildDto;
 import com.younait.guilds.domain.Entities.GuildEntity;
 import com.younait.guilds.mappers.impl.GuildMapperImpl;
 import com.younait.guilds.services.GuildService;
+import org.springframework.boot.data.autoconfigure.web.DataWebProperties;
+import org.springframework.data.domain.Page;
 import org.springframework.data.web.ReactiveOffsetScrollPositionHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,11 +35,9 @@ public class GuildController {
     }
 
     @GetMapping(path = "/guilds")
-    public List<GuildDto> ListGuilds(){
-        List<GuildEntity> guilds=guildService.findAll();
-     return guilds.stream()
-             .map(guildMapper::mapTo)
-             .collect(Collectors.toList());
+    public Page<GuildDto> findAllGuilds(Pageable pageable) {
+        Page<GuildEntity> guilds=guildService.findAll(pageable);
+     return guilds.map(guildMapper::mapTo);
     }
 
     @GetMapping("/guilds/{id}")
