@@ -97,7 +97,7 @@ public class WarriorControllerIntegrationTest {
     @Transactional
         void TestThatListWarriorsReturnWarriors() throws Exception {
 
-            // 1. Create warrior
+
             WarriorEntity warrior = new WarriorEntity();
             warrior.setName("ChikenSlayer");
             warrior.setAge(15);
@@ -105,13 +105,12 @@ public class WarriorControllerIntegrationTest {
 
             warriorService.CreateWarrior(warrior);
 
-            // 2. Call GET endpoint
             mockMvc.perform(
                             MockMvcRequestBuilders.get("/warriors")
                                     .contentType(MediaType.APPLICATION_JSON)
                     )
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$[*].name").value(hasItem("ChikenSlayer")));
+                    .andExpect(jsonPath("$.content[*].name").value(hasItem("ChikenSlayer")));
         }
 
         @Test
