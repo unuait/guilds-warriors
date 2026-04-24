@@ -75,6 +75,16 @@ public class WarriorController {
             WarriorEntity savedEntity=warriorService.WarriorPartialUpdate(id,warriorEntity);
             return new ResponseEntity<>(warriorMapper.mapTo(savedEntity),HttpStatus.OK);
     }
+
+    @DeleteMapping(path=("warriors/{id}"))
+    public ResponseEntity deleteGuild(@PathVariable("id") int id){
+        boolean existing=warriorService.ifWarriorExists(id);
+        if(!existing){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        warriorService.deleteGuild(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
 
 

@@ -56,5 +56,10 @@ public class WarriorServiceImpl implements WarriorService {
         return warriorRepository.save(existing);
     }
 
+    @Override
+    public void deleteGuild(int id){
+        warriorRepository.deleteById(id);
+    }
+
 
 }

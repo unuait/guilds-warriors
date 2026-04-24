@@ -19,4 +19,6 @@ public interface WarriorService {
     boolean ifWarriorExists(int id);
 
     WarriorEntity WarriorPartialUpdate(int id,WarriorEntity warriorEntity);
+
+    void deleteGuild(int id);
 }
