@@ -168,6 +168,30 @@ public class WarriorControllerIntegrationTest {
 
     }
 
+    @Test
+    @Transactional
+    void TestThatwarriorPartialUpdateReturnUpdatedWarrior() throws Exception {
+            WarriorEntity warrior=new WarriorEntity();
+            warrior.setName("monalisa");
+            warrior.setAge(15);
+            WarriorEntity savedWarrior=warriorService.CreateWarrior(warrior);
+            int id=savedWarrior.getId();
+
+            WarriorDto warriorDto = new WarriorDto();
+            warriorDto.setName("Monoliso");
+
+            String Json=objectMapper.writeValueAsString(warriorDto);
+
+            mockMvc.perform(
+                    MockMvcRequestBuilders.patch("/warriors/"+id)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(Json)
+            ).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.name").value("Monoliso"))
+                    .andExpect(jsonPath("$.age").value(15));
+
+    }
+
 
 
 
