@@ -15,7 +15,7 @@ public class WarriorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private int age;
+    public Integer age;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guild_id")

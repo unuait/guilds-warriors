@@ -41,6 +41,20 @@ public class WarriorServiceImpl implements WarriorService {
         return warriorRepository.existsById(id);
     }
 
+    @Override
+    public WarriorEntity WarriorPartialUpdate(int id, WarriorEntity incoming){
+        WarriorEntity existing=warriorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Guild not found"));
+
+        if(incoming.getName()!=null){
+            existing.setName(incoming.getName());
+        }
+        if(incoming.getAge()!=null){
+            existing.setAge(incoming.getAge());
+        }
+
+        return warriorRepository.save(existing);
+    }
 
 
 }

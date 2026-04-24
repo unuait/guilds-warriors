@@ -51,7 +51,7 @@ public class WarriorController {
 
 
 @PutMapping("warriors/{id}")
-    public ResponseEntity<WarriorDto> fullUpdateGuild(@PathVariable
+    public ResponseEntity<WarriorDto> WarriorfullUpdate(@PathVariable
         ("id") int id, @RequestBody WarriorDto warriorDto){
     boolean ifexist=warriorService.ifWarriorExists(id);
     if(!ifexist){
@@ -61,6 +61,19 @@ public class WarriorController {
     warriorEntity.setId(id);
     WarriorEntity savedWarrior=warriorService.CreateWarrior(warriorEntity);
     return new ResponseEntity<>(warriorMapper.mapTo(savedWarrior),HttpStatus.OK);
+    }
+
+    @PatchMapping("warriors/{id}")
+    public ResponseEntity<WarriorDto> WarriorPartialUpdate(@PathVariable("id") int id,
+                                                           @RequestBody WarriorDto warriorDto){
+        boolean isExist=warriorService.ifWarriorExists(id);
+        if(!isExist){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+           WarriorEntity warriorEntity=warriorMapper.mapFrom(warriorDto);
+            warriorEntity.setId(id);
+            WarriorEntity savedEntity=warriorService.WarriorPartialUpdate(id,warriorEntity);
+            return new ResponseEntity<>(warriorMapper.mapTo(savedEntity),HttpStatus.OK);
     }
 }
 

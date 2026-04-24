@@ -17,4 +17,6 @@ public interface WarriorService {
     Optional<WarriorEntity> findonewarrior(int id);
 
     boolean ifWarriorExists(int id);
+
+    WarriorEntity WarriorPartialUpdate(int id,WarriorEntity warriorEntity);
 }
