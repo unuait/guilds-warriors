@@ -4,10 +4,12 @@ import com.younait.guilds.domain.DTO.WarriorDto;
 import com.younait.guilds.domain.Entities.WarriorEntity;
 import com.younait.guilds.mappers.impl.WarriorMapperImpl;
 import com.younait.guilds.services.WarriorService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,11 +33,9 @@ public class WarriorController {
     }
 
     @GetMapping("/warriors")
-    public List<WarriorDto> ListWarriors(){
-        List<WarriorEntity> lw=warriorService.ListWarriors();
-        return lw.stream()
-                .map(warriorMapper::mapTo)
-                .collect(Collectors.toList());
+    public Page<WarriorDto> ListWarriors(Pageable pageable){
+        Page<WarriorEntity> warriors=warriorService.findAll(pageable);
+        return warriors.map(warriorMapper::mapTo);
 
     }
 
