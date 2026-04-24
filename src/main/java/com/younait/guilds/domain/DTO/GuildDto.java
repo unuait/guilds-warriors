@@ -1,7 +1,9 @@
 package com.younait.guilds.domain.DTO;
 
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder({"id","name","region"})
 public class GuildDto {
     private Integer id;
     private String name;

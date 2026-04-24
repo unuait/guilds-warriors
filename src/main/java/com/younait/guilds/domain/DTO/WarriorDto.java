@@ -1,11 +1,12 @@
 package com.younait.guilds.domain.DTO;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+@JsonPropertyOrder({ "id", "name", "age", "guildDto" })
 public class WarriorDto {
     private Integer id;
     private String name;
