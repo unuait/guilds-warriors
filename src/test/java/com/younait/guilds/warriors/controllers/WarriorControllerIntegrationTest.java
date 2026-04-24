@@ -25,6 +25,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import static aQute.bnd.annotation.headers.Category.json;
 import static org.hamcrest.Matchers.hasItem;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -37,12 +38,14 @@ public class WarriorControllerIntegrationTest {
         private MockMvc mockMvc;
         private ObjectMapper objectMapper;
         private WarriorService warriorService;
+        private WarriorRepository warriorRepository;
 
         @Autowired
-    public WarriorControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper,WarriorService warriorService){
+    public WarriorControllerIntegrationTest(MockMvc mockMvc, ObjectMapper objectMapper,WarriorService warriorService,WarriorRepository warriorRepository) {
             this.mockMvc=mockMvc;
             this.objectMapper=objectMapper;
             this.warriorService=warriorService;
+            this.warriorRepository=warriorRepository;
         }
 
         @Test
@@ -191,7 +194,19 @@ public class WarriorControllerIntegrationTest {
                     .andExpect(jsonPath("$.age").value(15));
 
     }
+    @Test
+    @Transactional
+    void TestThatDeleteWarriorsWorksCorrectly() throws Exception {
+            WarriorEntity warrior=new WarriorEntity();
 
+        WarriorEntity savedWarrior = warriorService.CreateWarrior(warrior);
+        int id=savedWarrior.getId();
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/warriors/" + id)
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.status().isNoContent());
+        assertFalse(warriorRepository.existsById(id));
+    }
 
 
 
