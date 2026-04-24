@@ -85,17 +85,20 @@ public class GuildControllerIntegrationTest {
 
     @Test
     @Transactional
-    void TestThatListWarriorsReturnWarriors() throws Exception {
+    void testThatListGuildsReturnGuilds() throws Exception {
+
         GuildEntity guild = new GuildEntity();
         guild.setName("thetoto");
         guild.setRegion("bouksour");
+
         guildService.createGuild(guild);
+
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/guilds")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[*].name").value(hasItem("thetoto")));
+                .andExpect(jsonPath("$.content[*].name").value(hasItem("thetoto")));
     }
 
     @Test
