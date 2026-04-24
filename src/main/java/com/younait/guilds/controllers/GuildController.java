@@ -80,10 +80,10 @@ public class GuildController {
     public ResponseEntity deleteGuild(@PathVariable("id") int id){
     boolean existing=guildService.isExist(id);
         if(!existing){
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         guildService.deleteGuild(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

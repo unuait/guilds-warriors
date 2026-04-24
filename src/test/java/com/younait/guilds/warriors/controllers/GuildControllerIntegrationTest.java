@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import tools.jackson.databind.ObjectMapper;
 
 import static org.hamcrest.Matchers.hasItem;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -232,5 +233,19 @@ public class GuildControllerIntegrationTest {
                 .andExpect(jsonPath("$.region").value("old region"));
     }
 
+    @Test
+    @Transactional
+    void TestThatDeleteGuildWorksCorrectly() throws Exception {
+        GuildEntity guild = new GuildEntity();
+        guild.setName("name");
+        guild.setRegion("region");
+        GuildEntity savedGuild = guildService.createGuild(guild);
+        int id=savedGuild.getId();
 
+       mockMvc.perform(
+               MockMvcRequestBuilders.delete("/guilds/" + id)
+                       .contentType(MediaType.APPLICATION_JSON)
+       ).andExpect(MockMvcResultMatchers.status().isNoContent());
+       assertFalse(underTest.existsById(id));
+    }
 }
