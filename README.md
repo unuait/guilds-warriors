@@ -239,4 +239,10 @@ Planned improvements to evolve this into a more production-ready backend:
 - Global exception handling
 - Docker support
 - CI/CD pipeline
+
+📌 Notes
+
+This project was built as part of a backend engineering learning journey with an emphasis on writing cleaner code, understanding architecture, and building systems the right way.
+
+It is intentionally simple in domain, but serious in structure.
 - frontend client (React)
